@@ -58,3 +58,15 @@ select
 888852 as p_region
 from
 table1 limit 1;
+
+没有数据
+INSERT OVERWRITE TABLE table1 PARTITION(p_provincecode,p_date)
+select  '02' as  servicetype,' 2016-04-10' as msgdate,510000 as p_provincecode,'2016-05-05' as p_date from table1 limit 1
+union all
+select  '02' as  servicetype,' 2016-04-08' as msgdate,510000 as p_provincecode,'2016-05-05' as p_date from table1 limit 1;
+
+
+如果某表没有数据  可以这样
+INSERT OVERWRITE TABLE table1 PARTITION(p_provincecode,p_date)
+select  '15220203849' as  mdn,1 as mdnclass,0.99 as confidence,510000 as p_provincecode,'2016-05-05' as p_date 
+from  (select count(1) from ict_function_localnetfraudnumber_day) as xxx limit 1
